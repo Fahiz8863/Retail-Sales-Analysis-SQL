@@ -15,7 +15,7 @@ CREATE TABLE retail_sales (
 )
 
 SELECT * FROM retail_sales;
-
+SELECT COUNT(*) FROM retail_sales;
 -- Data cleaning --
 -- To check for the null values:
 
@@ -67,14 +67,20 @@ WHERE
 
 -- Data exploration
 -- How many sales we have
-SELECT COUNT(*) AS total_sales FROM retail_sales;
+SELECT 
+	SUM(total_sale) AS total_sales 
+FROM retail_sales;
 
 -- How many customers we have
-SELECT COUNT(DISTINCT customer_id) AS unique_customers FROM retail_sales;
+SELECT 
+	COUNT(DISTINCT customer_id) AS unique_customers 
+FROM retail_sales;
 
 -- How many distinct category we have, and what are they? 
 SELECT COUNT(DISTINCT category) AS distinct_category_count FROM retail_sales;
-SELECT DISTINCT(category) as distinct_category FROM retail_sales;
+SELECT 
+	DISTINCT(category) as distinct_category 
+FROM retail_sales;
 
 -- Data Analysis & Business Key problems and Answers
 
@@ -86,15 +92,24 @@ WHERE sale_date ='2022-11-05';
 -- 3 in the month of Nov-2022?
 
 SELECT * FROM retail_sales
-WHERE category = 'Clothing' and quantity>3 and sale_date between '2022-11-01' and '2022-11-30';
+WHERE 
+	category = 'Clothing' and quantity>3 and sale_date between '2022-11-01' and '2022-11-30';
 
 -- Q.3. Write a SQL query to calculate the total sales(total_sale), total order count and total quantity ordered for each category:
-SELECT category, SUM(total_sale) as total_sales,COUNT(transactions_id) as total_orders, SUM(quantity) as total_quantity_ordered FROM retail_sales
+SELECT 
+	category, 
+	SUM(total_sale) as total_sales,
+	COUNT(transactions_id) as total_orders, 
+	SUM(quantity) as total_quantity_ordered 
+FROM retail_sales
 GROUP BY category;
 
 -- Q.4. Write a SQL query to find the average age of customers who purchased items from 'Beauty' category
 SELECT * FROM retail_sales;
-SELECT category, ROUND(AVG(age), 2) FROM retail_sales
+SELECT 
+	category, 
+	ROUND(AVG(age), 2) 
+FROM retail_sales
 WHERE category='Beauty'
 GROUP BY 1;
 
@@ -112,7 +127,7 @@ SELECT
 	COUNT(transactions_id) as total_transactions
 FROM retail_sales
 GROUP BY 1,2
-ORDER BY category, gender;
+ORDER BY 1, 2;
 
 --Q.7. Write a SQL query to calculate the average sale for each month, and find out the best-selling month in each year.
 SELECT * FROM retail_sales;
@@ -136,7 +151,7 @@ WHERE t1.rank=1;
 SELECT * FROM retail_sales;
 SELECT 
 	customer_id, 
-	sum(total_sale) as total_sales
+	SUM(total_sale) as total_sales
 FROM retail_sales
 GROUP BY customer_id
 ORDER BY total_sales DESC
@@ -167,6 +182,6 @@ SELECT
 	shift,
 	COUNT(transactions_id) as total_orders
 FROM hourly_sales
-GROUP BY shift
+GROUP BY shift;
 
 --End of project
